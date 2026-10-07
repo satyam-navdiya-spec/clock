@@ -2,384 +2,2067 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Digital Wall Clock</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CHRONOVA — Premium Clocks</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Font -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
         rel="stylesheet">
 
     <style>
-        * {
-            box-sizing: border-box;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Orbitron', sans-serif;
-            overflow: hidden;
+            font-family: "DM Sans", sans-serif;
+            background: #f7f5f0;
+            color: #171717;
         }
 
-        .clock-glow {
-            text-shadow:
-                0 0 10px currentColor,
-                0 0 25px currentColor,
-                0 0 50px currentColor,
-                0 0 100px currentColor;
+        .serif {
+            font-family: "Playfair Display", serif;
         }
 
-        .colon {
-            animation: blink 1s infinite;
+        .product-card {
+            transition: transform .35s ease, box-shadow .35s ease;
         }
 
-        @keyframes blink {
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, .10);
+        }
 
-            0%,
-            45% {
+        .product-image {
+            transition: transform .5s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.06);
+        }
+
+        .fade-up {
+            animation: fadeUp .8s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
                 opacity: 1;
-            }
-
-            50%,
-            95% {
-                opacity: 0.25;
-            }
-
-            100% {
-                opacity: 1;
+                transform: translateY(0);
             }
         }
 
-        .pulse-ring {
-            animation: pulseRing 3s infinite;
+        .cart-panel {
+            transition: transform .35s ease;
         }
 
-        @keyframes pulseRing {
-            0% {
-                transform: scale(0.95);
-                opacity: 0.3;
-            }
-
-            50% {
-                transform: scale(1.05);
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: scale(0.95);
-                opacity: 0.3;
-            }
+        .modal {
+            transition: opacity .3s ease;
         }
 
-        .grid-bg {
-            background-image:
-                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-            background-size: 50px 50px;
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
         }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        .dot {
-            box-shadow: 0 0 12px #22c55e;
+        .hero-gradient {
+            background:
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, .15), transparent 30%),
+                linear-gradient(135deg, #191816, #302d27 60%, #171614);
         }
     </style>
 </head>
 
-<body class="bg-black text-white min-h-screen">
+<body>
 
-    <!-- Background -->
-    <main id="app" class="relative min-h-screen flex items-center justify-center overflow-hidden
-           bg-gradient-to-br from-zinc-950 via-black to-zinc-900">
+    <!-- ========================================================= -->
+    <!-- NAVBAR -->
+    <!-- ========================================================= -->
 
-        <!-- Background Glow -->
-        <div class="absolute w-[500px] h-[500px] rounded-full
-                bg-cyan-500/10 blur-[120px] -top-40 -left-40"></div>
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#f7f5f0]/90 backdrop-blur-xl border-b border-black/5">
 
-        <div class="absolute w-[500px] h-[500px] rounded-full
-                bg-purple-500/10 blur-[120px] -bottom-40 -right-40"></div>
+        <div class="max-w-7xl mx-auto px-5 lg:px-8">
 
-        <!-- Grid -->
-        <div class="absolute inset-0 grid-bg"></div>
+            <div class="h-20 flex items-center justify-between">
 
-        <!-- Main Clock Container -->
-        <section class="relative z-10 w-full max-w-7xl px-5">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-3">
 
-            <!-- Header -->
-            <div class="flex items-center justify-between mb-8">
+                    <div class="w-10 h-10 rounded-full bg-neutral-900 text-white flex items-center justify-center">
+                        <span class="text-lg">◷</span>
+                    </div>
+
+                    <div>
+                        <h1 class="font-bold tracking-[.25em] text-lg">
+                            CHRONOVA
+                        </h1>
+
+                        <p class="text-[8px] tracking-[.35em] text-neutral-500">
+                            TIME • DESIGNED
+                        </p>
+                    </div>
+
+                </a>
+
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex items-center gap-8 text-sm">
+
+                    <a href="#home" class="hover:text-neutral-500 transition">
+                        Home
+                    </a>
+
+                    <a href="#collection" class="hover:text-neutral-500 transition">
+                        Collection
+                    </a>
+
+                    <a href="#bestsellers" class="hover:text-neutral-500 transition">
+                        Best Sellers
+                    </a>
+
+                    <a href="#about" class="hover:text-neutral-500 transition">
+                        About
+                    </a>
+
+                    <a href="#contact" class="hover:text-neutral-500 transition">
+                        Contact
+                    </a>
+
+                </nav>
+
+
+                <!-- Actions -->
+                <div class="flex items-center gap-2">
+
+                    <button onclick="openSearch()"
+                        class="w-10 h-10 rounded-full hover:bg-black/5 flex items-center justify-center">
+                        🔍
+                    </button>
+
+                    <button onclick="toggleWishlist()"
+                        class="relative w-10 h-10 rounded-full hover:bg-black/5 flex items-center justify-center">
+                        ♡
+
+                        <span id="wishlistCount"
+                            class="hidden absolute top-0 right-0 w-4 h-4 bg-black text-white text-[9px] rounded-full flex items-center justify-center">
+                            0
+                        </span>
+
+                    </button>
+
+                    <button onclick="openCart()"
+                        class="relative w-10 h-10 rounded-full hover:bg-black/5 flex items-center justify-center">
+                        🛒
+
+                        <span id="cartCount"
+                            class="absolute top-0 right-0 w-4 h-4 bg-black text-white text-[9px] rounded-full flex items-center justify-center">
+                            0
+                        </span>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ========================================================= -->
+    <!-- HERO -->
+    <!-- ========================================================= -->
+
+    <section id="home" class="pt-20">
+
+        <div class="hero-gradient text-white min-h-[680px] flex items-center">
+
+            <div class="max-w-7xl mx-auto px-5 lg:px-8 w-full">
+
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+                    <!-- Hero Content -->
+                    <div class="fade-up">
+
+                        <p class="text-sm tracking-[.4em] uppercase text-white/50 mb-6">
+                            Premium Timepieces
+                        </p>
+
+                        <h2 class="serif text-5xl md:text-7xl leading-[1.05] mb-7">
+                            Time deserves
+                            <span class="text-[#c8a96b]">
+                                beautiful design.
+                            </span>
+                        </h2>
+
+                        <p class="text-white/60 max-w-lg leading-7 mb-9">
+                            Discover beautifully crafted wall clocks, desk clocks and
+                            statement timepieces designed to make every second look better.
+                        </p>
+
+                        <div class="flex flex-wrap gap-4">
+
+                            <a href="#collection"
+                                class="bg-white text-black px-7 py-4 rounded-full text-sm font-semibold hover:bg-[#c8a96b] transition">
+                                Shop Collection →
+                            </a>
+
+                            <a href="#bestsellers"
+                                class="border border-white/20 px-7 py-4 rounded-full text-sm hover:bg-white/10 transition">
+                                Best Sellers
+                            </a>
+
+                        </div>
+
+                        <!-- Trust -->
+                        <div class="flex gap-8 mt-12 text-xs text-white/50">
+
+                            <div>
+                                <strong class="block text-white text-xl">10K+</strong>
+                                Happy Customers
+                            </div>
+
+                            <div>
+                                <strong class="block text-white text-xl">4.9/5</strong>
+                                Customer Rating
+                            </div>
+
+                            <div>
+                                <strong class="block text-white text-xl">2 Yr</strong>
+                                Warranty
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Hero Clock -->
+                    <div class="flex justify-center">
+
+                        <div class="relative">
+
+                            <div class="absolute inset-0 bg-[#c8a96b]/20 blur-[100px] rounded-full"></div>
+
+                            <div
+                                class="relative w-72 h-72 md:w-[430px] md:h-[430px] rounded-full bg-[#e8e0d0] border-[12px] border-[#171614] shadow-2xl flex items-center justify-center">
+
+                                <!-- Clock Face -->
+                                <div class="absolute inset-5 rounded-full border border-black/10"></div>
+
+                                <!-- Numbers -->
+                                <span class="absolute top-8 font-bold">12</span>
+                                <span class="absolute right-9 top-1/2 -translate-y-1/2 font-bold">3</span>
+                                <span class="absolute bottom-8 font-bold">6</span>
+                                <span class="absolute left-9 top-1/2 -translate-y-1/2 font-bold">9</span>
+
+                                <!-- Hands -->
+                                <div
+                                    class="absolute w-2 h-28 bg-neutral-900 rounded-full origin-bottom rotate-[35deg] bottom-1/2">
+                                </div>
+
+                                <div
+                                    class="absolute w-2 h-20 bg-[#c8a96b] rounded-full origin-bottom rotate-[125deg] bottom-1/2">
+                                </div>
+
+                                <div class="absolute w-5 h-5 bg-neutral-900 rounded-full"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- FEATURES -->
+    <!-- ========================================================= -->
+
+    <section class="bg-white border-b border-black/5">
+
+        <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+            <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-black/5">
+
+                <div class="p-7 text-center">
+
+                    <div class="text-2xl mb-2">🚚</div>
+
+                    <h3 class="font-semibold text-sm">
+                        Free Shipping
+                    </h3>
+
+                    <p class="text-xs text-neutral-500 mt-1">
+                        On orders above ₹999
+                    </p>
+
+                </div>
+
+
+                <div class="p-7 text-center">
+
+                    <div class="text-2xl mb-2">🛡️</div>
+
+                    <h3 class="font-semibold text-sm">
+                        2 Year Warranty
+                    </h3>
+
+                    <p class="text-xs text-neutral-500 mt-1">
+                        Complete protection
+                    </p>
+
+                </div>
+
+
+                <div class="p-7 text-center">
+
+                    <div class="text-2xl mb-2">↩️</div>
+
+                    <h3 class="font-semibold text-sm">
+                        Easy Returns
+                    </h3>
+
+                    <p class="text-xs text-neutral-500 mt-1">
+                        7 day return policy
+                    </p>
+
+                </div>
+
+
+                <div class="p-7 text-center">
+
+                    <div class="text-2xl mb-2">🔒</div>
+
+                    <h3 class="font-semibold text-sm">
+                        Secure Payment
+                    </h3>
+
+                    <p class="text-xs text-neutral-500 mt-1">
+                        100% secure checkout
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- CATEGORIES -->
+    <!-- ========================================================= -->
+
+    <section class="py-24">
+
+        <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+            <div class="text-center mb-14">
+
+                <p class="text-xs tracking-[.35em] uppercase text-neutral-500 mb-4">
+                    Explore
+                </p>
+
+                <h2 class="serif text-4xl md:text-5xl">
+                    Find your perfect timepiece
+                </h2>
+
+            </div>
+
+
+            <div class="grid md:grid-cols-3 gap-5">
+
+                <!-- Wall -->
+                <button onclick="filterProducts('Wall Clock')"
+                    class="group relative h-80 overflow-hidden rounded-3xl bg-neutral-900 text-white text-left">
+
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+
+                    <div class="absolute inset-0 flex items-center justify-center">
+
+                        <div
+                            class="w-48 h-48 rounded-full bg-[#e6ddca] border-8 border-black shadow-2xl flex items-center justify-center">
+
+                            <span class="text-4xl text-black">
+                                10:10
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="absolute bottom-7 left-7 z-20">
+
+                        <p class="text-xs text-white/60 uppercase tracking-widest">
+                            Collection 01
+                        </p>
+
+                        <h3 class="serif text-3xl mt-1">
+                            Wall Clocks
+                        </h3>
+
+                    </div>
+
+                </button>
+
+
+                <!-- Desk -->
+                <button onclick="filterProducts('Desk Clock')"
+                    class="group relative h-80 overflow-hidden rounded-3xl bg-[#d6c8b0] text-black text-left">
+
+                    <div class="absolute inset-0 flex items-center justify-center">
+
+                        <div class="w-52 h-36 rounded-3xl bg-[#252525] shadow-2xl flex items-center justify-center">
+
+                            <span class="text-4xl text-[#d6b96d] font-mono">
+                                10:10
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="absolute bottom-7 left-7">
+
+                        <p class="text-xs text-black/50 uppercase tracking-widest">
+                            Collection 02
+                        </p>
+
+                        <h3 class="serif text-3xl mt-1">
+                            Desk Clocks
+                        </h3>
+
+                    </div>
+
+                </button>
+
+
+                <!-- Luxury -->
+                <button onclick="filterProducts('Luxury')"
+                    class="group relative h-80 overflow-hidden rounded-3xl bg-[#29251f] text-white text-left">
+
+                    <div class="absolute inset-0 flex items-center justify-center">
+
+                        <div
+                            class="w-48 h-48 rounded-full border-[12px] border-[#b99551] bg-[#151515] shadow-2xl flex items-center justify-center">
+
+                            <span class="text-3xl text-[#d4b46b]">
+                                CH
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="absolute bottom-7 left-7">
+
+                        <p class="text-xs text-white/50 uppercase tracking-widest">
+                            Collection 03
+                        </p>
+
+                        <h3 class="serif text-3xl mt-1">
+                            Luxury
+                        </h3>
+
+                    </div>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- COLLECTION -->
+    <!-- ========================================================= -->
+
+    <section id="collection" class="py-24 bg-white">
+
+        <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
 
                 <div>
-                    <p class="text-xs md:text-sm tracking-[0.35em] text-zinc-500 uppercase">
-                        Digital Wall Clock
+
+                    <p class="text-xs tracking-[.35em] uppercase text-neutral-500 mb-3">
+                        Our Collection
                     </p>
 
-                    <div class="flex items-center gap-2 mt-2">
-                        <span class="dot w-2 h-2 rounded-full bg-green-500"></span>
-                        <span class="text-xs text-zinc-500 tracking-widest">
-                            LIVE
-                        </span>
-                    </div>
+                    <h2 class="serif text-4xl md:text-5xl">
+                        Designed for every room
+                    </h2>
+
                 </div>
 
-                <!-- Controls -->
-                <div class="flex gap-2">
 
-                    <button id="formatBtn" onclick="toggleFormat()" class="glass px-4 py-2 rounded-xl text-xs tracking-wider
-                   hover:bg-white/10 transition">
-                        12H
+                <!-- Filters -->
+                <div class="flex gap-2 overflow-x-auto hide-scrollbar">
+
+                    <button onclick="filterProducts('All')"
+                        class="filter-btn active-filter px-5 py-2.5 rounded-full bg-black text-white text-xs whitespace-nowrap">
+                        All
                     </button>
 
-                    <button onclick="toggleFullscreen()" class="glass px-4 py-2 rounded-xl text-xs
-                   hover:bg-white/10 transition">
-                        ⛶
+                    <button onclick="filterProducts('Wall Clock')"
+                        class="filter-btn px-5 py-2.5 rounded-full bg-neutral-100 text-xs whitespace-nowrap">
+                        Wall Clocks
                     </button>
 
-                    <button onclick="toggleTheme()" class="glass w-10 h-10 rounded-xl
-                   hover:bg-white/10 transition">
-                        ◐
+                    <button onclick="filterProducts('Desk Clock')"
+                        class="filter-btn px-5 py-2.5 rounded-full bg-neutral-100 text-xs whitespace-nowrap">
+                        Desk Clocks
                     </button>
 
-                </div>
-            </div>
+                    <button onclick="filterProducts('Luxury')"
+                        class="filter-btn px-5 py-2.5 rounded-full bg-neutral-100 text-xs whitespace-nowrap">
+                        Luxury
+                    </button>
 
-
-            <!-- Clock -->
-            <div class="relative">
-
-                <!-- Decorative Ring -->
-                <div class="pulse-ring absolute inset-0
-                 border border-cyan-400/10 rounded-[3rem]
-                 pointer-events-none"></div>
-
-                <div class="glass rounded-[3rem] p-8 md:p-14
-                 shadow-2xl shadow-black/50">
-
-                    <!-- Time -->
-                    <div id="clock" class="clock-glow text-center
-                   text-[15vw] md:text-[11vw] lg:text-[9rem]
-                   leading-none font-bold tracking-tight
-                   text-cyan-400 select-none">
-                        00:00:00
-                    </div>
-
-                    <!-- AM / PM -->
-                    <div id="period" class="text-center text-lg md:text-2xl
-                   tracking-[0.5em] text-cyan-300/70 mt-5">
-                        AM
-                    </div>
-
-                    <!-- Date -->
-                    <div id="date" class="text-center text-sm md:text-base
-                   tracking-[0.25em] text-zinc-400 uppercase mt-10">
-                        Wednesday, October 7, 2026
-                    </div>
-
-                </div>
-            </div>
-
-
-            <!-- Bottom Information -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
-
-                <!-- Location -->
-                <div class="glass rounded-2xl p-5">
-                    <p class="text-[10px] tracking-[0.3em] text-zinc-500 uppercase">
-                        Location
-                    </p>
-
-                    <p class="mt-2 text-sm tracking-wider">
-                        Your Local Time
-                    </p>
-                </div>
-
-
-                <!-- Day -->
-                <div class="glass rounded-2xl p-5 text-center">
-                    <p class="text-[10px] tracking-[0.3em] text-zinc-500 uppercase">
-                        Day
-                    </p>
-
-                    <p id="day" class="mt-2 text-sm tracking-wider">
-                        Wednesday
-                    </p>
-                </div>
-
-
-                <!-- Seconds -->
-                <div class="glass rounded-2xl p-5 text-right">
-                    <p class="text-[10px] tracking-[0.3em] text-zinc-500 uppercase">
-                        Seconds
-                    </p>
-
-                    <p id="seconds" class="mt-2 text-sm tracking-wider text-cyan-400">
-                        00
-                    </p>
                 </div>
 
             </div>
 
 
-            <!-- Footer -->
-            <div class="text-center mt-8">
-                <p class="text-[9px] tracking-[0.4em] text-zinc-700 uppercase">
-                    Always On • Always Accurate
+            <!-- Products -->
+            <div id="productGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- SALE BANNER -->
+    <!-- ========================================================= -->
+
+    <section class="py-24">
+
+        <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+            <div class="rounded-[2rem] bg-[#1b1916] text-white overflow-hidden">
+
+                <div class="grid lg:grid-cols-2 items-center">
+
+                    <div class="p-10 md:p-16">
+
+                        <p class="text-xs tracking-[.35em] uppercase text-[#c8a96b] mb-5">
+                            Limited Time
+                        </p>
+
+                        <h2 class="serif text-5xl md:text-6xl">
+                            Time for a
+                            <br>
+                            <span class="text-[#c8a96b]">better deal.</span>
+                        </h2>
+
+                        <p class="text-white/50 max-w-md mt-6 mb-8 leading-7">
+                            Upgrade your space with timeless designs.
+                            Enjoy up to 30% off selected clocks.
+                        </p>
+
+                        <button onclick="filterProducts('All'); document.getElementById('collection').scrollIntoView()"
+                            class="bg-white text-black px-7 py-4 rounded-full text-sm font-semibold hover:bg-[#c8a96b] transition">
+                            Shop Sale
+                        </button>
+
+                    </div>
+
+
+                    <div class="h-80 lg:h-full min-h-[400px] flex items-center justify-center bg-[#25221d]">
+
+                        <div
+                            class="relative w-64 h-64 rounded-full bg-[#e9e0d0] border-[12px] border-[#b08b4a] shadow-2xl flex items-center justify-center">
+
+                            <span class="absolute top-7 font-bold text-neutral-800">12</span>
+                            <span class="absolute right-7 font-bold text-neutral-800">3</span>
+                            <span class="absolute bottom-7 font-bold text-neutral-800">6</span>
+                            <span class="absolute left-7 font-bold text-neutral-800">9</span>
+
+                            <div class="absolute w-1.5 h-24 bg-black rounded-full origin-bottom rotate-45 bottom-1/2">
+                            </div>
+
+                            <div
+                                class="absolute w-1.5 h-16 bg-[#b08b4a] rounded-full origin-bottom rotate-[140deg] bottom-1/2">
+                            </div>
+
+                            <div class="w-4 h-4 rounded-full bg-black z-10"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- BEST SELLERS -->
+    <!-- ========================================================= -->
+
+    <section id="bestsellers" class="py-24">
+
+        <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+            <div class="text-center mb-14">
+
+                <p class="text-xs tracking-[.35em] uppercase text-neutral-500 mb-4">
+                    Customer Favorites
                 </p>
+
+                <h2 class="serif text-4xl md:text-5xl">
+                    Best Sellers
+                </h2>
+
             </div>
 
-        </section>
 
-    </main>
+            <div class="grid md:grid-cols-3 gap-6">
 
+                <div class="bg-white rounded-3xl p-5">
+
+                    <div class="aspect-square rounded-2xl bg-[#e8dfd0] flex items-center justify-center">
+
+                        <div
+                            class="w-52 h-52 rounded-full bg-white border-[8px] border-neutral-800 shadow-xl flex items-center justify-center">
+
+                            <span class="text-xl font-bold">
+                                10:10
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="pt-5">
+
+                        <p class="text-xs text-neutral-400">
+                            WALL CLOCK
+                        </p>
+
+                        <h3 class="serif text-2xl mt-1">
+                            The Minimalist
+                        </h3>
+
+                        <div class="flex justify-between items-center mt-4">
+
+                            <span class="font-semibold">
+                                ₹2,499
+                            </span>
+
+                            <span class="text-yellow-500 text-sm">
+                                ★★★★★
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="bg-white rounded-3xl p-5">
+
+                    <div class="aspect-square rounded-2xl bg-[#d5c2a5] flex items-center justify-center">
+
+                        <div class="w-56 h-40 rounded-3xl bg-neutral-900 shadow-xl flex items-center justify-center">
+
+                            <span class="text-3xl text-[#d4b46b] font-mono">
+                                10:10
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="pt-5">
+
+                        <p class="text-xs text-neutral-400">
+                            DESK CLOCK
+                        </p>
+
+                        <h3 class="serif text-2xl mt-1">
+                            Noir Digital
+                        </h3>
+
+                        <div class="flex justify-between items-center mt-4">
+
+                            <span class="font-semibold">
+                                ₹1,899
+                            </span>
+
+                            <span class="text-yellow-500 text-sm">
+                                ★★★★★
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="bg-white rounded-3xl p-5">
+
+                    <div class="aspect-square rounded-2xl bg-neutral-900 flex items-center justify-center">
+
+                        <div
+                            class="w-52 h-52 rounded-full bg-neutral-950 border-[10px] border-[#c29a55] shadow-xl flex items-center justify-center">
+
+                            <span class="text-[#d4b46b] text-xl">
+                                CHRONOVA
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="pt-5">
+
+                        <p class="text-xs text-neutral-400">
+                            LUXURY
+                        </p>
+
+                        <h3 class="serif text-2xl mt-1">
+                            Royal Black
+                        </h3>
+
+                        <div class="flex justify-between items-center mt-4">
+
+                            <span class="font-semibold">
+                                ₹5,999
+                            </span>
+
+                            <span class="text-yellow-500 text-sm">
+                                ★★★★★
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- ABOUT -->
+    <!-- ========================================================= -->
+
+    <section id="about" class="py-24 bg-[#e9e4da]">
+
+        <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+                <div>
+
+                    <p class="text-xs tracking-[.35em] uppercase text-neutral-500 mb-5">
+                        Our Philosophy
+                    </p>
+
+                    <h2 class="serif text-4xl md:text-6xl leading-tight">
+                        We don't just
+                        <br>
+                        measure time.
+                        <br>
+                        <span class="text-neutral-500">
+                            We frame it.
+                        </span>
+                    </h2>
+
+                </div>
+
+
+                <div>
+
+                    <p class="text-neutral-600 leading-8">
+                        CHRONOVA was created around one simple idea:
+                        the clock on your wall should be more than something
+                        that tells you what time it is.
+                    </p>
+
+                    <p class="text-neutral-600 leading-8 mt-6">
+                        Every piece in our collection combines timeless
+                        aesthetics, reliable movement and thoughtful materials
+                        to create clocks that become part of your space.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-5 mt-10">
+
+                        <div>
+                            <strong class="text-3xl serif">
+                                2018
+                            </strong>
+
+                            <p class="text-xs text-neutral-500 mt-1">
+                                Founded
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong class="text-3xl serif">
+                                50+
+                            </strong>
+
+                            <p class="text-xs text-neutral-500 mt-1">
+                                Designs
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- REVIEWS -->
+    <!-- ========================================================= -->
+
+    <section class="py-24 bg-white">
+
+        <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+            <div class="text-center mb-14">
+
+                <p class="text-xs tracking-[.35em] uppercase text-neutral-500 mb-4">
+                    Customer Stories
+                </p>
+
+                <h2 class="serif text-4xl md:text-5xl">
+                    Loved by thousands
+                </h2>
+
+            </div>
+
+
+            <div class="grid md:grid-cols-3 gap-6">
+
+                <div class="bg-[#f7f5f0] rounded-3xl p-8">
+
+                    <div class="text-yellow-500 mb-5">
+                        ★★★★★
+                    </div>
+
+                    <p class="text-neutral-600 leading-7">
+                        "The clock looks even better in person.
+                        It completely changed the look of my living room."
+                    </p>
+
+                    <div class="mt-7">
+
+                        <strong class="text-sm">
+                            Riya Shah
+                        </strong>
+
+                        <p class="text-xs text-neutral-400">
+                            Mumbai
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="bg-[#f7f5f0] rounded-3xl p-8">
+
+                    <div class="text-yellow-500 mb-5">
+                        ★★★★★
+                    </div>
+
+                    <p class="text-neutral-600 leading-7">
+                        "Beautiful minimal design and the quality
+                        is excellent. Packaging was also amazing."
+                    </p>
+
+                    <div class="mt-7">
+
+                        <strong class="text-sm">
+                            Arjun Mehta
+                        </strong>
+
+                        <p class="text-xs text-neutral-400">
+                            Ahmedabad
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="bg-[#f7f5f0] rounded-3xl p-8">
+
+                    <div class="text-yellow-500 mb-5">
+                        ★★★★★
+                    </div>
+
+                    <p class="text-neutral-600 leading-7">
+                        "Bought one for my office and another
+                        for my home. Both look premium."
+                    </p>
+
+                    <div class="mt-7">
+
+                        <strong class="text-sm">
+                            Karan Patel
+                        </strong>
+
+                        <p class="text-xs text-neutral-400">
+                            Surat
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- NEWSLETTER -->
+    <!-- ========================================================= -->
+
+    <section class="py-20 bg-neutral-900 text-white">
+
+        <div class="max-w-3xl mx-auto px-5 text-center">
+
+            <p class="text-xs tracking-[.35em] text-white/40 uppercase">
+                Stay In Time
+            </p>
+
+            <h2 class="serif text-4xl md:text-5xl mt-4">
+                Get 10% off your first order.
+            </h2>
+
+            <p class="text-white/50 mt-5">
+                Join our newsletter for new designs and exclusive offers.
+            </p>
+
+            <form onsubmit="subscribe(event)" class="flex flex-col sm:flex-row gap-3 mt-8">
+
+                <input id="emailInput" type="email" required placeholder="Your email address"
+                    class="flex-1 px-5 py-4 rounded-full bg-white/10 border border-white/10 outline-none placeholder:text-white/30">
+
+                <button class="px-7 py-4 bg-white text-black rounded-full font-semibold hover:bg-[#c8a96b] transition">
+                    Subscribe
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ========================================================= -->
+    <!-- FOOTER -->
+    <!-- ========================================================= -->
+
+    <footer id="contact" class="bg-[#11110f] text-white">
+
+        <div class="max-w-7xl mx-auto px-5 lg:px-8 py-16">
+
+            <div class="grid md:grid-cols-4 gap-12">
+
+                <div class="md:col-span-2">
+
+                    <h2 class="font-bold tracking-[.25em] text-xl">
+                        CHRONOVA
+                    </h2>
+
+                    <p class="text-white/40 max-w-sm mt-5 leading-7">
+                        Premium clocks designed for modern spaces.
+                        Because every second deserves good design.
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <h3 class="text-sm font-semibold mb-5">
+                        Shop
+                    </h3>
+
+                    <div class="space-y-3 text-sm text-white/40">
+
+                        <a href="#collection" class="block hover:text-white">
+                            Wall Clocks
+                        </a>
+
+                        <a href="#collection" class="block hover:text-white">
+                            Desk Clocks
+                        </a>
+
+                        <a href="#collection" class="block hover:text-white">
+                            Luxury
+                        </a>
+
+                        <a href="#bestsellers" class="block hover:text-white">
+                            Best Sellers
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <h3 class="text-sm font-semibold mb-5">
+                        Support
+                    </h3>
+
+                    <div class="space-y-3 text-sm text-white/40">
+
+                        <p>
+                            support@chronova.com
+                        </p>
+
+                        <p>
+                            +91 98765 43210
+                        </p>
+
+                        <p>
+                            Mon–Sat, 10 AM–6 PM
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="border-t border-white/10 mt-14 pt-7 flex flex-col md:flex-row justify-between gap-4">
+
+                <p class="text-xs text-white/30">
+                    © 2026 CHRONOVA. All rights reserved.
+                </p>
+
+                <p class="text-xs text-white/30">
+                    Privacy • Terms • Shipping
+                </p>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- ========================================================= -->
+    <!-- SEARCH MODAL -->
+    <!-- ========================================================= -->
+
+    <div id="searchModal" class="hidden fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm">
+
+        <div class="max-w-xl mx-auto mt-32 px-5">
+
+            <div class="bg-white rounded-3xl p-6">
+
+                <div class="flex gap-3">
+
+                    <input id="searchInput" oninput="searchProducts()"
+                        class="flex-1 bg-neutral-100 rounded-full px-5 py-4 outline-none"
+                        placeholder="Search clocks...">
+
+                    <button onclick="closeSearch()" class="w-12 h-12 rounded-full bg-black text-white">
+                        ×
+                    </button>
+
+                </div>
+
+                <div id="searchResults" class="mt-5"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================================= -->
+    <!-- PRODUCT MODAL -->
+    <!-- ========================================================= -->
+
+    <div id="productModal" class="hidden fixed inset-0 z-[100] bg-black/70 backdrop-blur-sm p-5 overflow-y-auto">
+
+        <div class="max-w-4xl mx-auto mt-10 bg-white rounded-[2rem] overflow-hidden">
+
+            <div class="grid md:grid-cols-2">
+
+                <div id="modalImage" class="min-h-[400px] bg-[#e8dfd0] flex items-center justify-center"></div>
+
+
+                <div class="p-8 md:p-12">
+
+                    <button onclick="closeProduct()" class="float-right w-10 h-10 rounded-full bg-neutral-100">
+                        ×
+                    </button>
+
+                    <p id="modalCategory" class="text-xs tracking-widest text-neutral-400 uppercase"></p>
+
+                    <h2 id="modalName" class="serif text-4xl mt-3"></h2>
+
+                    <div class="text-yellow-500 mt-4">
+                        ★★★★★
+                    </div>
+
+                    <p id="modalDescription" class="text-neutral-500 leading-7 mt-6"></p>
+
+                    <div id="modalPrice" class="text-2xl font-semibold mt-7"></div>
+
+                    <button id="modalAdd"
+                        class="w-full mt-8 bg-black text-white py-4 rounded-full font-semibold hover:bg-neutral-700 transition">
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ========================================================= -->
+    <!-- CART -->
+    <!-- ========================================================= -->
+
+    <div id="cartOverlay" class="hidden fixed inset-0 z-[90] bg-black/40" onclick="closeCart()"></div>
+
+
+    <aside id="cartPanel"
+        class="cart-panel fixed top-0 right-0 bottom-0 z-[100] w-full max-w-md bg-white translate-x-full shadow-2xl">
+
+        <div class="h-full flex flex-col">
+
+            <div class="p-6 border-b flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs text-neutral-400 tracking-widest uppercase">
+                        Your Bag
+                    </p>
+
+                    <h2 class="serif text-3xl">
+                        Shopping Cart
+                    </h2>
+
+                </div>
+
+                <button onclick="closeCart()" class="w-10 h-10 rounded-full bg-neutral-100">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div id="cartItems" class="flex-1 overflow-y-auto p-6"></div>
+
+
+            <div class="border-t p-6">
+
+                <div class="flex justify-between mb-5">
+
+                    <span class="text-neutral-500">
+                        Total
+                    </span>
+
+                    <strong id="cartTotal">
+                        ₹0
+                    </strong>
+
+                </div>
+
+                <button onclick="checkout()" class="w-full bg-black text-white py-4 rounded-full font-semibold">
+                    Checkout →
+                </button>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- ========================================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================================================= -->
 
     <script>
 
-        let is24Hour = false;
-        let darkMode = true;
+        const products = [
+
+            {
+                id: 1,
+                name: "The Minimalist",
+                category: "Wall Clock",
+                price: 2499,
+                oldPrice: 3299,
+                color: "#e8dfd0",
+                icon: "◷",
+                description: "A clean and timeless wall clock designed for modern interiors."
+            },
+
+            {
+                id: 2,
+                name: "Oak Classic",
+                category: "Wall Clock",
+                price: 2899,
+                oldPrice: 3599,
+                color: "#c9a97c",
+                icon: "◷",
+                description: "Warm natural tones and classic proportions for elegant spaces."
+            },
+
+            {
+                id: 3,
+                name: "Mono Black",
+                category: "Wall Clock",
+                price: 3199,
+                oldPrice: 3999,
+                color: "#272522",
+                icon: "◷",
+                description: "A bold black statement clock with a minimalist face."
+            },
+
+            {
+                id: 4,
+                name: "Noir Digital",
+                category: "Desk Clock",
+                price: 1899,
+                oldPrice: 2499,
+                color: "#cdbb9b",
+                icon: "10:10",
+                description: "A modern digital desk clock with a premium dark finish."
+            },
+
+            {
+                id: 5,
+                name: "Woodline",
+                category: "Desk Clock",
+                price: 2299,
+                oldPrice: 2899,
+                color: "#b89064",
+                icon: "10:10",
+                description: "Compact desk clock combining natural wood and modern design."
+            },
+
+            {
+                id: 6,
+                name: "Executive",
+                category: "Desk Clock",
+                price: 3499,
+                oldPrice: 4199,
+                color: "#343434",
+                icon: "10:10",
+                description: "A sophisticated desk clock designed for executive spaces."
+            },
+
+            {
+                id: 7,
+                name: "Royal Black",
+                category: "Luxury",
+                price: 5999,
+                oldPrice: 7499,
+                color: "#171717",
+                icon: "CH",
+                description: "A luxurious statement clock finished with elegant gold details."
+            },
+
+            {
+                id: 8,
+                name: "Gold Heritage",
+                category: "Luxury",
+                price: 7499,
+                oldPrice: 8999,
+                color: "#b4955a",
+                icon: "CH",
+                description: "A premium timepiece inspired by classic luxury interiors."
+            }
+
+        ];
 
 
-        // ================================
-        // UPDATE CLOCK
-        // ================================
+        let cart = [];
+        let wishlist = [];
 
-        function updateClock() {
 
-            const now = new Date();
 
-            let hours = now.getHours();
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
+        /* =========================================================
+           PRODUCT GRID
+        ========================================================= */
 
-            let period = "";
+        function renderProducts(list = products) {
 
-            if (!is24Hour) {
+            const grid = document.getElementById("productGrid");
 
-                period = hours >= 12 ? "PM" : "AM";
+            grid.innerHTML = "";
 
-                hours = hours % 12;
+            if (list.length === 0) {
 
-                if (hours === 0) {
-                    hours = 12;
-                }
+                grid.innerHTML = `
+      <div class="col-span-full text-center py-20">
+        <p class="text-neutral-400">No products found.</p>
+      </div>
+    `;
+
+                return;
+            }
+
+
+            list.forEach(product => {
+
+                const isWishlisted = wishlist.includes(product.id);
+
+                grid.innerHTML += `
+
+      <div class="product-card bg-[#f7f5f0] rounded-3xl overflow-hidden">
+
+        <div
+          class="relative aspect-square flex items-center justify-center"
+          style="background:${product.color}"
+        >
+
+          <button
+            onclick="toggleProductWishlist(${product.id})"
+            class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/80 backdrop-blur flex items-center justify-center"
+          >
+            ${isWishlisted ? "♥" : "♡"}
+          </button>
+
+
+          <div
+            onclick="openProduct(${product.id})"
+            class="cursor-pointer"
+          >
+
+            ${product.category === "Desk Clock"
+                        ?
+
+                        `
+              <div class="w-48 h-32 md:w-52 md:h-36 rounded-3xl bg-neutral-900 shadow-2xl flex items-center justify-center">
+
+                <span class="text-2xl md:text-3xl text-[#d4b46b] font-mono">
+                  ${product.icon}
+                </span>
+
+              </div>
+              `
+
+                        :
+
+                        product.category === "Luxury"
+
+                            ?
+
+                            `
+              <div class="w-48 h-48 rounded-full bg-[#111] border-[10px] border-[#c19a58] shadow-2xl flex items-center justify-center">
+
+                <span class="text-[#d7b96e] text-lg tracking-widest">
+                  ${product.icon}
+                </span>
+
+              </div>
+              `
+
+                            :
+
+                            `
+              <div class="w-48 h-48 rounded-full bg-[#f5eee0] border-[9px] border-neutral-800 shadow-2xl flex items-center justify-center relative">
+
+                <span class="absolute top-5 text-xs font-bold text-neutral-700">
+                  12
+                </span>
+
+                <span class="absolute right-5 text-xs font-bold text-neutral-700">
+                  3
+                </span>
+
+                <span class="absolute bottom-5 text-xs font-bold text-neutral-700">
+                  6
+                </span>
+
+                <span class="absolute left-5 text-xs font-bold text-neutral-700">
+                  9
+                </span>
+
+                <span class="text-lg font-bold">
+                  ${product.icon}
+                </span>
+
+              </div>
+              `
+                    }
+
+          </div>
+
+        </div>
+
+
+        <div class="p-5">
+
+          <p class="text-[10px] tracking-[.2em] uppercase text-neutral-400">
+            ${product.category}
+          </p>
+
+          <h3 class="serif text-xl mt-1">
+            ${product.name}
+          </h3>
+
+
+          <div class="flex justify-between items-center mt-4">
+
+            <div>
+
+              <span class="font-semibold">
+                ₹${product.price.toLocaleString("en-IN")}
+              </span>
+
+              <span class="text-xs text-neutral-400 line-through ml-2">
+                ₹${product.oldPrice.toLocaleString("en-IN")}
+              </span>
+
+            </div>
+
+            <button
+              onclick="addToCart(${product.id})"
+              class="w-10 h-10 rounded-full bg-black text-white hover:bg-neutral-700 transition"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+            });
+
+        }
+
+
+
+        /* =========================================================
+           FILTER
+        ========================================================= */
+
+        function filterProducts(category) {
+
+            document.querySelectorAll(".filter-btn").forEach(btn => {
+
+                btn.classList.remove("bg-black", "text-white");
+                btn.classList.add("bg-neutral-100");
+
+            });
+
+
+            if (category === "All") {
+
+                renderProducts(products);
+
+            } else {
+
+                renderProducts(
+                    products.filter(product => product.category === category)
+                );
 
             }
 
-            hours = String(hours).padStart(2, '0');
+        }
 
 
-            // Time
-            document.getElementById("clock").innerHTML =
-                `${hours}<span class="colon">:</span>${minutes}<span class="colon">:</span>${seconds}`;
+
+        /* =========================================================
+           SEARCH
+        ========================================================= */
+
+        function openSearch() {
+
+            document.getElementById("searchModal").classList.remove("hidden");
+
+            setTimeout(() => {
+                document.getElementById("searchInput").focus();
+            }, 100);
+
+        }
 
 
-            // Period
-            document.getElementById("period").textContent =
-                is24Hour ? "24 HOUR" : period;
+        function closeSearch() {
+
+            document.getElementById("searchModal").classList.add("hidden");
+
+        }
 
 
-            // Date
-            const dateOptions = {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-                year: "numeric"
+        function searchProducts() {
+
+            const query =
+                document.getElementById("searchInput").value.toLowerCase();
+
+            const results = products.filter(product =>
+                product.name.toLowerCase().includes(query) ||
+                product.category.toLowerCase().includes(query)
+            );
+
+
+            document.getElementById("searchResults").innerHTML =
+                results.map(product => `
+
+      <button
+        onclick="openProduct(${product.id}); closeSearch()"
+        class="w-full flex items-center gap-4 p-3 rounded-2xl hover:bg-neutral-100 text-left"
+      >
+
+        <div
+          class="w-16 h-16 rounded-xl flex items-center justify-center"
+          style="background:${product.color}"
+        >
+          ${product.icon}
+        </div>
+
+        <div>
+
+          <strong>
+            ${product.name}
+          </strong>
+
+          <p class="text-xs text-neutral-400">
+            ${product.category} • ₹${product.price.toLocaleString("en-IN")}
+          </p>
+
+        </div>
+
+      </button>
+
+    `).join("");
+
+        }
+
+
+
+        /* =========================================================
+           PRODUCT MODAL
+        ========================================================= */
+
+        function openProduct(id) {
+
+            const product =
+                products.find(item => item.id === id);
+
+            if (!product) return;
+
+
+            document.getElementById("modalCategory").textContent =
+                product.category;
+
+            document.getElementById("modalName").textContent =
+                product.name;
+
+            document.getElementById("modalDescription").textContent =
+                product.description;
+
+            document.getElementById("modalPrice").textContent =
+                "₹" + product.price.toLocaleString("en-IN");
+
+
+            let visual = "";
+
+            if (product.category === "Desk Clock") {
+
+                visual = `
+      <div class="w-64 h-44 rounded-3xl bg-neutral-900 shadow-2xl flex items-center justify-center">
+
+        <span class="text-4xl text-[#d4b46b] font-mono">
+          ${product.icon}
+        </span>
+
+      </div>
+    `;
+
+            } else if (product.category === "Luxury") {
+
+                visual = `
+      <div class="w-64 h-64 rounded-full bg-neutral-950 border-[14px] border-[#c19a58] shadow-2xl flex items-center justify-center">
+
+        <span class="text-[#d7b96e] text-2xl tracking-widest">
+          ${product.icon}
+        </span>
+
+      </div>
+    `;
+
+            } else {
+
+                visual = `
+      <div class="w-64 h-64 rounded-full bg-[#f5eee0] border-[12px] border-neutral-800 shadow-2xl flex items-center justify-center">
+
+        <span class="text-2xl font-bold">
+          ${product.icon}
+        </span>
+
+      </div>
+    `;
+
+            }
+
+
+            document.getElementById("modalImage").innerHTML =
+                visual;
+
+            document.getElementById("modalAdd").onclick = () => {
+
+                addToCart(product.id);
+
+                closeProduct();
+
+                openCart();
+
             };
 
-            document.getElementById("date").textContent =
-                now.toLocaleDateString("en-US", dateOptions);
+
+            document
+                .getElementById("productModal")
+                .classList.remove("hidden");
+
+        }
 
 
-            // Day
-            document.getElementById("day").textContent =
-                now.toLocaleDateString("en-US", {
-                    weekday: "long"
+        function closeProduct() {
+
+            document
+                .getElementById("productModal")
+                .classList.add("hidden");
+
+        }
+
+
+
+        /* =========================================================
+           CART
+        ========================================================= */
+
+        function addToCart(id) {
+
+            const existing =
+                cart.find(item => item.id === id);
+
+            if (existing) {
+
+                existing.quantity++;
+
+            } else {
+
+                cart.push({
+                    id: id,
+                    quantity: 1
                 });
 
+            }
 
-            // Seconds
-            document.getElementById("seconds").textContent =
-                String(now.getSeconds()).padStart(2, '0');
+            renderCart();
+
         }
 
 
-        // ================================
-        // 12 / 24 HOUR
-        // ================================
+        function removeFromCart(id) {
 
-        function toggleFormat() {
+            cart =
+                cart.filter(item => item.id !== id);
 
-            is24Hour = !is24Hour;
+            renderCart();
 
-            document.getElementById("formatBtn").textContent =
-                is24Hour ? "24H" : "12H";
-
-            updateClock();
         }
 
 
-        // ================================
-        // FULLSCREEN
-        // ================================
+        function changeQuantity(id, amount) {
 
-        function toggleFullscreen() {
+            const item =
+                cart.find(item => item.id === id);
 
-            if (!document.fullscreenElement) {
+            if (!item) return;
 
-                document.documentElement.requestFullscreen();
+            item.quantity += amount;
+
+            if (item.quantity <= 0) {
+
+                removeFromCart(id);
+
+                return;
+
+            }
+
+            renderCart();
+
+        }
+
+
+        function renderCart() {
+
+            const container =
+                document.getElementById("cartItems");
+
+            const count =
+                cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            document.getElementById("cartCount").textContent =
+                count;
+
+
+            if (cart.length === 0) {
+
+                container.innerHTML = `
+
+      <div class="h-full flex items-center justify-center text-center">
+
+        <div>
+
+          <div class="text-5xl mb-5">
+            🛒
+          </div>
+
+          <h3 class="serif text-2xl">
+            Your cart is empty
+          </h3>
+
+          <p class="text-sm text-neutral-400 mt-2">
+            Add a beautiful clock to get started.
+          </p>
+
+        </div>
+
+      </div>
+
+    `;
+
+                document.getElementById("cartTotal").textContent =
+                    "₹0";
+
+                return;
+
+            }
+
+
+            let total = 0;
+
+
+            container.innerHTML =
+                cart.map(item => {
+
+                    const product =
+                        products.find(p => p.id === item.id);
+
+                    const subtotal =
+                        product.price * item.quantity;
+
+                    total += subtotal;
+
+
+                    return `
+
+        <div class="flex gap-4 py-5 border-b">
+
+          <div
+            class="w-20 h-20 rounded-2xl flex items-center justify-center"
+            style="background:${product.color}"
+          >
+            ${product.icon}
+          </div>
+
+
+          <div class="flex-1">
+
+            <div class="flex justify-between">
+
+              <div>
+
+                <h3 class="font-semibold">
+                  ${product.name}
+                </h3>
+
+                <p class="text-xs text-neutral-400">
+                  ${product.category}
+                </p>
+
+              </div>
+
+              <button
+                onclick="removeFromCart(${product.id})"
+                class="text-neutral-400"
+              >
+                ×
+              </button>
+
+            </div>
+
+
+            <div class="flex items-center justify-between mt-4">
+
+              <div class="flex items-center gap-3">
+
+                <button
+                  onclick="changeQuantity(${product.id}, -1)"
+                  class="w-7 h-7 rounded-full bg-neutral-100"
+                >
+                  −
+                </button>
+
+                <span class="text-sm">
+                  ${item.quantity}
+                </span>
+
+                <button
+                  onclick="changeQuantity(${product.id}, 1)"
+                  class="w-7 h-7 rounded-full bg-neutral-100"
+                >
+                  +
+                </button>
+
+              </div>
+
+              <strong>
+                ₹${subtotal.toLocaleString("en-IN")}
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      `;
+
+                }).join("");
+
+
+            document.getElementById("cartTotal").textContent =
+                "₹" + total.toLocaleString("en-IN");
+
+        }
+
+
+        function openCart() {
+
+            document
+                .getElementById("cartOverlay")
+                .classList.remove("hidden");
+
+            document
+                .getElementById("cartPanel")
+                .classList.remove("translate-x-full");
+
+        }
+
+
+        function closeCart() {
+
+            document
+                .getElementById("cartOverlay")
+                .classList.add("hidden");
+
+            document
+                .getElementById("cartPanel")
+                .classList.add("translate-x-full");
+
+        }
+
+
+
+        /* =========================================================
+           WISHLIST
+        ========================================================= */
+
+        function toggleProductWishlist(id) {
+
+            if (wishlist.includes(id)) {
+
+                wishlist =
+                    wishlist.filter(item => item !== id);
 
             } else {
 
-                document.exitFullscreen();
+                wishlist.push(id);
 
             }
+
+            updateWishlist();
+
+            renderProducts(
+                document.querySelector(".active-filter")
+                    ? products
+                    : products
+            );
+
         }
 
 
-        // ================================
-        // THEME
-        // ================================
+        function updateWishlist() {
 
-        function toggleTheme() {
+            const counter =
+                document.getElementById("wishlistCount");
 
-            const app = document.getElementById("app");
-            const clock = document.getElementById("clock");
+            counter.textContent =
+                wishlist.length;
 
-            darkMode = !darkMode;
+            if (wishlist.length > 0) {
 
-            if (darkMode) {
-
-                app.className =
-                    "relative min-h-screen flex items-center justify-center overflow-hidden " +
-                    "bg-gradient-to-br from-zinc-950 via-black to-zinc-900";
-
-                clock.classList.remove("text-purple-400");
-                clock.classList.add("text-cyan-400");
+                counter.classList.remove("hidden");
 
             } else {
 
-                app.className =
-                    "relative min-h-screen flex items-center justify-center overflow-hidden " +
-                    "bg-gradient-to-br from-slate-100 via-white to-slate-200 text-black";
+                counter.classList.add("hidden");
 
-                clock.classList.remove("text-cyan-400");
-                clock.classList.add("text-purple-400");
             }
+
         }
 
 
-        // Start clock
-        updateClock();
+        function toggleWishlist() {
 
-        // Update every second
-        setInterval(updateClock, 1000);
+            if (wishlist.length === 0) {
+
+                alert("Your wishlist is empty.");
+
+                return;
+
+            }
+
+            const names =
+                wishlist.map(id =>
+                    products.find(p => p.id === id).name
+                );
+
+            alert(
+                "Wishlist:\n\n" +
+                names.join("\n")
+            );
+
+        }
+
+
+
+        /* =========================================================
+           CHECKOUT
+        ========================================================= */
+
+        function checkout() {
+
+            if (cart.length === 0) {
+
+                alert("Your cart is empty.");
+
+                return;
+
+            }
+
+            alert(
+                "Thank you for shopping with CHRONOVA!\n\n" +
+                "This is a demo checkout system."
+            );
+
+        }
+
+
+
+        /* =========================================================
+           NEWSLETTER
+        ========================================================= */
+
+        function subscribe(event) {
+
+            event.preventDefault();
+
+            const email =
+                document.getElementById("emailInput").value;
+
+            alert(
+                "Thank you!\n\n" +
+                email +
+                " has been subscribed successfully."
+            );
+
+            event.target.reset();
+
+        }
+
+
+
+        /* =========================================================
+           INITIALIZE
+        ========================================================= */
+
+        renderProducts();
+
+        renderCart();
 
     </script>
 
